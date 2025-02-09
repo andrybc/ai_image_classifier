@@ -1,0 +1,138 @@
+/* === Reset styles === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'Arial, Helvetica, sans-serif';
+    background-color: #f3f4f6;
+}
+
+/* === Utility Classes === */
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.max-w-lg {
+    max-width: 32rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.space-y-4>*+* {
+    margin-top: 1rem;
+}
+
+.space-y-6>*+* {
+    margin-top: 1.5rem;
+}
+
+/* === Card Styling === */
+.card {
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+/* === Typography === */
+h1 {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #1f2937;
+    text-align: center;
+}
+
+p {
+    font-size: 1rem;
+    color: #6b7280;
+    text-align: center;
+}
+
+/* === Button Styles === */
+button {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+/* === File Input === */
+input[type="file"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background-color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+input[type="file"]:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
+}
+
+/* === Select Dropdown === */
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
+}
+
+/* === Uploaded Image Preview === */
+img {
+    max-width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+}
+
+/* === Classification Result === */
+.classification-result {
+    background-color: #d1fae5;
+    padding: 1rem;
+    border: 1px solid #34d399;
+    border-radius: 0.5rem;
+    color: #065f46;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 500;
+}
