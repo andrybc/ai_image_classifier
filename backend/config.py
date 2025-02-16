@@ -1,18 +1,23 @@
 import os
+from dotenv import load_dotenv
 
-# Flask App Configuration
-UPLOAD_FOLDER = "uploads"
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
-MODEL_PATH = "model/mobilenetv2_transfer_learning.keras"
+# ✅ Load Environment Variables from .env
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+dotenv_path = os.path.join(BASE_DIR, ".env")
+load_dotenv(dotenv_path)
 
-# Database Configuration
+# ✅ Flask App Configuration
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "uploads")
+
+# ✅ Database Configuration
 DB_CONFIG = {
-    "dbname": "ai_classifier",
-    "user": "your_user",
-    "password": "your_password",
-    "host": "localhost",
-    "port": "5432"  # Use "3306" for MySQL
+    "dbname": os.getenv("DB_NAME"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "host": os.getenv("DB_HOST"),
+    "port": os.getenv("DB_PORT"),
 }
 
-# Ensure upload folder exists
+# ✅ Ensure Upload Folder Exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
