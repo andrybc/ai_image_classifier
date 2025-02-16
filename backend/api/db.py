@@ -1,9 +1,16 @@
-import psycopg2
+import mysql.connector
 from config import DB_CONFIG
 
 def connect_db():
-    """Connects to the PostgreSQL or MySQL database"""
-    return psycopg2.connect(**DB_CONFIG)
+    """Connects to MySQL database securely"""
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        return conn
+    except mysql.connector.Error as e:
+        print(f"❌ MySQL Connection Error: {e}")
+        return None
+
+
 
 def insert_classification(filename, category, result):
     """Inserts a classification result into the database"""
