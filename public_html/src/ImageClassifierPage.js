@@ -6,6 +6,7 @@ import { Select, SelectItem } from './components/ui/select';
 
 
 const categories = ['Animals', 'Objects', 'Scenery', 'Faces', 'Vehicles'];
+const API_URL = process.env.APP_API_URL;
 
 export default function ImageClassifierPage() {
     const [selectedCategory, setSelectedCategory] = useState('Animals');
@@ -19,11 +20,33 @@ export default function ImageClassifierPage() {
         }
     };
 
-    const classifyImage = () => {
-        // Random result generation for now since AI model isn't implemented
-        const randomResult = Math.random() > 0.5 ? `Detected ${selectedCategory}` : `No ${selectedCategory} detected`;
-        setClassificationResult(randomResult);
+    const classifyImage = async () => {
+        if (!uploadedFile) {
+            alert("Please upload an image first.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", document.getElementById("file-input").files[0]);
+
+        try {
+            const response = await fetch(`${API_URL}/classify`, {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setClassificationResult(`Prediction: ${data.classification}`);
+            } else {
+                setClassificationResult(`Error: ${data.error}`);
+            }
+        } catch (error) {
+            setClassificationResult("Error connecting to API.");
+        }
     };
+
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
