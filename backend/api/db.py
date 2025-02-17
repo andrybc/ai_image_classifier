@@ -1,10 +1,10 @@
 import mysql.connector
-from config import DB_CONFIG
+from config import Config
 
 def connect_db():
     """Connects to MySQL database securely"""
     try:
-        conn = mysql.connector.connect(**DB_CONFIG)
+        conn = mysql.connector.connect(**Config.DB_CONFIG)
         return conn
     except mysql.connector.Error as e:
         print(f"❌ MySQL Connection Error: {e}")
