@@ -3,7 +3,7 @@ import numpy as np
 from tensorflow.keras.preprocessing import image
 
 # Load the trained AI model
-MODEL_PATH = "../model/mobilenetv2_transfer_learning.keras"
+MODEL_PATH = "backend\model\mobilenetv2_transfer_learning.keras"
 model = tf.keras.models.load_model(MODEL_PATH)
 
 def classify_image(image_path, category):
