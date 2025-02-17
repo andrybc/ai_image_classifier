@@ -1,13 +1,17 @@
+import os
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing import image
 
-# Load the trained AI model
-MODEL_PATH = "backend/model/mobilenetv2_transfer_learning.keras"
+# ✅ Get the absolute path to the model file
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Points to backend/
+MODEL_PATH = os.path.join(BASE_DIR, "model/mobilenetv2_transfer_learning.keras")
+
+# ✅ Load AI Model
 model = tf.keras.models.load_model(MODEL_PATH)
 
 def classify_image(image_path, category):
-    """Classifies an image using the AI model."""
+    """Classifies an image using MobileNetV2 AI model."""
     img = image.load_img(image_path, target_size=(224, 224))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
@@ -19,4 +23,3 @@ def classify_image(image_path, category):
     confidence = np.max(predictions)
 
     return f"Class: {category}, Confidence: {confidence:.2f}"
-
