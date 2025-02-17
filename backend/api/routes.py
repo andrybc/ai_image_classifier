@@ -1,6 +1,6 @@
 from flask import request, jsonify
-from .image_classification import classify_image
-from database.db import connect_db
+from model import classify_image
+from db import connect_db
 from api import api_bp
 import os
 
