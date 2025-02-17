@@ -1,33 +1,36 @@
-from flask import Blueprint, request, jsonify
-from werkzeug.utils import secure_filename
+from flask import request, jsonify
+from .image_classification import classify_image
+from database.db import connect_db
+from api import api_bp
 import os
-from config import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
-from api.model import classify_image
-from api.db import insert_classification, fetch_classifications
 
-api = Blueprint("api", __name__)
-
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@api.route("/classify", methods=["POST"])
+@api_bp.route('/classify', methods=['POST'])
 def classify():
-    if "file" not in request.files:
-        return jsonify({"error": "No file uploaded"}), 400
-    
-    file = request.files["file"]
-    
-    if file.filename == "" or not allowed_file(file.filename):
-        return jsonify({"error": "Invalid file type"}), 400
+    """Handle image uploads & classification."""
+    if 'image' not in request.files:
+        return jsonify({"error": "No image uploaded"}), 400
 
-    filename = secure_filename(file.filename)
-    filepath = os.path.join(UPLOAD_FOLDER, filename)
-    file.save(filepath)
+    image = request.files['image']
+    category = request.form.get('category', 'Animals')
 
-    # ✅ Run Classification
-    classification = classify_image(filepath)
+    if image.filename == '':
+        return jsonify({"error": "No file selected"}), 400
 
-    # ✅ Store in Database
-    insert_classification(filename, "Animal", classification)
+    filepath = os.path.join("uploads", image.filename)
+    image.save(filepath)
 
-    return jsonify({"filename": filename, "classification": classification})
+    # Classify the image
+    result = classify_image(filepath, category)
+
+    # Store result in database
+    conn = connect_db()
+    if conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO classifications (filename, category, result) VALUES (%s, %s, %s)",
+            (image.filename, category, result),
+        )
+        conn.commit()
+        conn.close()
+
+    return jsonify({"filename": image.filename, "category": category, "result": result})

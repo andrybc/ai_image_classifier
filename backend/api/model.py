@@ -1,24 +1,22 @@
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from config import MODEL_PATH
+from tensorflow.keras.preprocessing import image
 
-# ✅ Load Pretrained Model
+# Load the trained AI model
+MODEL_PATH = "../model/mobilenetv2_transfer_learning.keras"
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# ✅ Define Class Labels (Cat = index 0, Dog = index 1)
-CLASS_LABELS = ["Cat", "Dog"]
+def classify_image(image_path, category):
+    """Classifies an image using the AI model."""
+    img = image.load_img(image_path, target_size=(224, 224))
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array /= 255.0  # Normalize pixel values
 
-def classify_image(image_path):
-    """Processes an image and predicts if it's a Cat or Dog"""
-    
-    # ✅ Load and Preprocess Image
-    img = load_img(image_path, target_size=(224, 224))  # Resize
-    img_array = img_to_array(img)  # Convert to NumPy array
-    img_array = np.expand_dims(img_array, axis=0) / 255.0  # Normalize and add batch dim
+    # Predict
+    predictions = model.predict(img_array)
+    class_index = np.argmax(predictions)
+    confidence = np.max(predictions)
 
-    # ✅ Make Prediction
-    predictions = model.predict(img_array)  # Model outputs softmax probabilities
-    predicted_class = np.argmax(predictions[0])  # Get the class index
+    return f"Class: {category}, Confidence: {confidence:.2f}"
 
-    return CLASS_LABELS[predicted_class]  # Return "Cat" or "Dog"
