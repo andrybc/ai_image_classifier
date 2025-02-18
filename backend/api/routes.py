@@ -4,7 +4,7 @@ from api.db import connect_db
 from api import api_bp
 import os
 
-@api_bp.route('/api/classify', methods=['POST'])
+@api_bp.route('/classify', methods=['POST'])
 def classify():
     """Handle image uploads & classification."""
     if 'image' not in request.files:
