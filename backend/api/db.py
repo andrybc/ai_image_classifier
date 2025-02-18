@@ -5,6 +5,7 @@ def connect_db():
     """Connects to MySQL database securely"""
     try:
         conn = mysql.connector.connect(**Config.DB_CONFIG)
+        print(f"DB connection successful")
         return conn
     except mysql.connector.Error as e:
         print(f"❌ MySQL Connection Error: {e}")
@@ -18,7 +19,7 @@ def insert_classification(filename, category, result):
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO classifications (filename, category, result) VALUES (%s, %s, %s)",
+            "INSERT INTO ai_img_classifications (filename, category, result) VALUES (%s, %s, %s)",
             (filename, category, result)
         )
         conn.commit()
@@ -32,7 +33,7 @@ def fetch_classifications():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM classifications WHERE category = 'Animal' ORDER BY id DESC LIMIT 10")
+        cursor.execute("SELECT * FROM ai_img_classifications WHERE category = 'Animal' ORDER BY id DESC LIMIT 10")
         data = cursor.fetchall()
         cursor.close()
         conn.close()

@@ -27,7 +27,7 @@ def classify():
     if conn:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO classifications (filename, category, result) VALUES (%s, %s, %s)",
+            "INSERT INTO ai_img_classifications (filename, category, result) VALUES (%s, %s, %s)",
             (image.filename, category, result),
         )
         conn.commit()
