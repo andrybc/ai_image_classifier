@@ -1,25 +1,27 @@
-import os
-import tensorflow as tf
 import numpy as np
-from tensorflow.keras.preprocessing import image
-
-# ✅ Get the absolute path to the model file
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Points to backend/
-MODEL_PATH = os.path.join(BASE_DIR, "model/mobilenetv2_transfer_learning.keras")
+import tensorflow as tf
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+import os
 
 # ✅ Load AI Model
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "../model/mobilenetv2_transfer_learning.keras")
 model = tf.keras.models.load_model(MODEL_PATH)
 
+# ✅ Class Labels
+CLASS_LABELS = ["Cat", "Dog"]  # Ensure this matches train_generator.class_indices
+
 def classify_image(image_path, category):
-    """Classifies an image using MobileNetV2 AI model."""
-    img = image.load_img(image_path, target_size=(224, 224))
-    img_array = image.img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0  # Normalize pixel values
+    """Classifies an image using the trained MobileNetV2 model."""
+    
+    # ✅ Load & Preprocess Image
+    img = load_img(image_path, target_size=(224, 224))  # Resize image
+    img = img_to_array(img) / 255.0  # Normalize pixel values
+    img = np.expand_dims(img, axis=0)  # Add batch dimension
 
-    # Predict
-    predictions = model.predict(img_array)
-    class_index = np.argmax(predictions)
-    confidence = np.max(predictions)
+    # ✅ Predict
+    prediction = model.predict(img)
+    class_index = np.argmax(prediction)
+    confidence = np.max(prediction)
 
-    return f"Class: {category}, Confidence: {confidence:.2f}"
+    # ✅ Return the class label and confidence score
+    return f"Class: {CLASS_LABELS[class_index]}, Confidence: {confidence:.2%}"
