@@ -5,7 +5,7 @@ import { FileInput } from "./components/ui/file_input";
 import { Select, SelectItem } from "./components/ui/select";
 
 const categories = ["Animals", "Objects", "Scenery", "Faces", "Vehicles"];
-const API_URL = process.env.REACT_APP_API_URL || "https://classifier.andrybc.dev/api";
+const API_URL = "https://classifier.andrybc.dev/api";
 
 
 export default function ImageClassifierPage() {
