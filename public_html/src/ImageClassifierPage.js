@@ -42,6 +42,7 @@ export default function ImageClassifierPage() {
 
             if (response.ok) {
                 // assuming the backend now returns { class: "Cat", confidence: "98.23%" }
+                console.log(data.result)
                 setClassificationResult(
                     `Class: ${data.result.class}, Confidence: ${data.result.confidence}`
                 );
