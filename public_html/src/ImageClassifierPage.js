@@ -41,12 +41,14 @@ export default function ImageClassifierPage() {
             const data = await response.json();
 
             if (response.ok) {
+                // assuming the backend now returns { class: "Cat", confidence: "98.23%" }
                 setClassificationResult(
-                    `Class: ${data.result.split(",")[0]}, Confidence: ${data.result.split(": ")[2]}`
+                    `Class: ${data.result.class}, Confidence: ${data.result.confidence}`
                 );
             } else {
                 setClassificationResult(`Error: ${data.error}`);
             }
+
         } catch (error) {
             setClassificationResult("Error connecting to API.");
         } finally {

@@ -24,4 +24,4 @@ def classify_image(image_path, category):
     confidence = np.max(prediction)
 
     # ✅ Return the class label and confidence score
-    return f"Class: {CLASS_LABELS[class_index]}, Confidence: {confidence:.2%}"
+    return {"class": {CLASS_LABELS[class_index]}, "confidence": f"{confidence:.2%}"}
