@@ -3,6 +3,8 @@ from api.model import classify_image
 from api.db import connect_db
 from api import api_bp
 import os
+import json
+
 
 @api_bp.route('/classify', methods=['POST'])
 def classify():
@@ -21,14 +23,14 @@ def classify():
 
     # Classify the image
     result = classify_image(filepath, category)
-
+    result_str = json.dumps(result)  # Convert dict to JSON string
     # Store result in database
     conn = connect_db()
     if conn:
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO ai_img_classifications (filename, category, result) VALUES (%s, %s, %s)",
-            (image.filename, category, result),
+            (image.filename, category, result_str),
         )
         conn.commit()
         conn.close()
